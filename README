@@ -1,0 +1,32 @@
+本项目参考文献：https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000（廖雪峰的官方网站 - Python教材 - 实战）
+一：环境说明：
+1. python3环境
+2. 异步框架aiohttp
+3. 前端模板引擎jinja2
+4. 数据库mysql， 异步IO驱动使用aiomysql，数据库初始化脚本：schema.sql
+5. 监控目录文件的变化watchdog（python的第三方库）
+6. 高性能Web服务器+负责反向代理：Nginx （服务器中使用）
+7. 监控服务进程的工具：supervisor （服务器中使用）
+
+二：目录结构说明：
+backup - 备份目录
+conf - 配置文件目录
+dist - 打包目录
+www - Web目录，存放.py文件
+    static - 存放静态文件
+    template - 存放模板文件
+ios - 存放ios app工程
+practice - 此目录下的文件可忽略，这些文件是做其他练习用的。
+
+三：重要文件说明：
+1. python文件：
+    启动文件：app.py, 命令：python app.py （不支持热部署）
+    请求处理文件：handlers.py, 比如：注册，http://127.0.0.1:9000/register （请求controller）
+    本地热部署文件：pymonitor.py， 使用它启动app.py， 并时刻检测www目录下的代码是否有改的，有改动则重启服务。 命令：python pymonitor.py app.py （有改的自动立即生效）
+    自动化部署到服务器：fabfile.py， 包括打包、发布等。（服务器环境： Linux + Nginx + Supervisor + MySQL）
+    默认的配置文件命：config_default.py （开发环境的标准配置）
+    部署到服务器的配置： config_override.py （生产环境的标准配置）
+    所有配置： config.py （生产环境的标准配置替换开发环境的标准配置）
+2. 配置文件：
+    Nginx的配置文件：conf/nginx/awesome， 放在服务器的路径：/etc/nginx/sites-available/
+    supervisor配置文件：conf/supervisor，放在服务器的路径：/etc/supervisor/conf.d/
